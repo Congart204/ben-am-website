@@ -24,12 +24,16 @@
     </div>
   </section>
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
+   (async () => {
     const code = qs("code");
-    const record = code ? getRequest(code) : null;
+    const record = code ? await getRequest(code) : null;
     document.getElementById("reqCode").textContent = record ? record.code : "NN-DEMO01";
     document.getElementById("trackLink").href = "theo-doi-trang-thai.html" + (record ? "?code=" + record.code : "");
+   })();
   </script>
 </body>

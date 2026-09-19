@@ -121,21 +121,29 @@ function genCode(prefix) {
   return prefix + "-" + Math.random().toString(36).slice(2, 8).toUpperCase();
 }
 
-/* Lưu yêu cầu cứu hộ / nhận nuôi / tình nguyện vào localStorage để demo luồng theo dõi */
-function saveRequest(type, data) {
+/* Lưu yêu cầu cứu hộ / nhận nuôi / tình nguyện vào Supabase (dữ liệu thật, dùng chung mọi thiết bị) */
+async function saveRequest(type, data) {
   const code = genCode(type === "rescue" ? "CH" : type === "adopt" ? "NN" : "TN");
-  const record = { code, type, data, createdAt: new Date().toISOString(), status: "received" };
-  const list = JSON.parse(localStorage.getItem("benam_requests") || "[]");
-  list.push(record);
-  localStorage.setItem("benam_requests", JSON.stringify(list));
-  return record;
+  const { data: rows, error } = await sb
+    .from("requests")
+    .insert({ code, type, data, status: "received" })
+    .select()
+    .single();
+  if (error) {
+    alert("Có lỗi khi gửi yêu cầu, vui lòng thử lại. (" + error.message + ")");
+    throw error;
+  }
+  return { code: rows.code, type: rows.type, data: rows.data, createdAt: rows.created_at, status: rows.status };
 }
-function getRequest(code) {
-  const list = JSON.parse(localStorage.getItem("benam_requests") || "[]");
-  return list.find((r) => r.code === code);
+async function getRequest(code) {
+  if (!code) return null;
+  const { data: row } = await sb.from("requests").select("*").eq("code", code).maybeSingle();
+  if (!row) return null;
+  return { code: row.code, type: row.type, data: row.data, createdAt: row.created_at, status: row.status };
 }
-function getAllRequests() {
-  return JSON.parse(localStorage.getItem("benam_requests") || "[]");
+async function getAllRequests() {
+  const { data: rows } = await sb.from("requests").select("*").order("created_at", { ascending: false });
+  return (rows || []).map((row) => ({ code: row.code, type: row.type, data: row.data, createdAt: row.created_at, status: row.status }));
 }
 
 document.addEventListener("DOMContentLoaded", () => {

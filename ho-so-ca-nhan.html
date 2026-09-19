@@ -30,9 +30,12 @@
     </div>
   </section>
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
+   (async () => {
     const user = JSON.parse(localStorage.getItem("benam_user") || 'null');
     if (!user) {
       document.getElementById("userName").textContent = "Bạn chưa đăng nhập";
@@ -46,8 +49,8 @@
       window.location.href = "dang-nhap.html";
     });
 
-    const requests = getAllRequests();
-    document.getElementById("myRequests").innerHTML = requests.length ? requests.slice().reverse().map(r => `
+    const requests = await getAllRequests();
+    document.getElementById("myRequests").innerHTML = requests.length ? requests.map(r => `
       <div class="flex-between" style="padding:12px 0; border-bottom:1px solid var(--color-border);">
         <div>
           <b>${r.code}</b>
@@ -58,5 +61,6 @@
           <a href="theo-doi-trang-thai.html?code=${r.code}" class="btn btn-outline btn-sm">Xem</a>
         </div>
       </div>`).join("") : `<p class="muted">Bạn chưa gửi yêu cầu nào. <a href="cuu-ho.html">Gửi yêu cầu cứu hộ</a> hoặc <a href="mai-am.html">tìm mái ấm</a>.</p>`;
+   })();
   </script>
 </body>

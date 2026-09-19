@@ -20,8 +20,10 @@
     </div>
   </section>
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
     const STAGES = [
       { key: "received", label: "Đã tiếp nhận yêu cầu", desc: "BẾN ẤM đã ghi nhận thông tin bạn gửi." },
@@ -65,22 +67,24 @@
         </div>`;
     }
 
-    function doSearch() {
+    async function doSearch() {
       const code = document.getElementById("codeInput").value.trim().toUpperCase();
-      renderResult(getRequest(code));
+      renderResult(await getRequest(code));
     }
     document.getElementById("searchBtn").addEventListener("click", doSearch);
 
+   (async () => {
     const pre = qs("code");
     if (pre) {
       document.getElementById("codeInput").value = pre;
-      doSearch();
+      await doSearch();
     } else {
-      const all = getAllRequests();
-      if (all.length) { document.getElementById("codeInput").value = all[all.length-1].code; doSearch(); }
+      const all = await getAllRequests();
+      if (all.length) { document.getElementById("codeInput").value = all[0].code; await doSearch(); }
       else {
         document.getElementById("resultArea").innerHTML = `<div class="empty-state"><div class="icon">📭</div><h3>Chưa có yêu cầu nào để tra cứu</h3><p class="muted">Gửi thử một <a href="form-cuu-ho.html">yêu cầu cứu hộ</a> để xem demo theo dõi trạng thái.</p></div>`;
       }
     }
+   })();
   </script>
 </body>

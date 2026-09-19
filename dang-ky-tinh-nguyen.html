@@ -27,20 +27,22 @@
     </div>
   </section>
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
     const t = VOLUNTEER_TASKS.find(x => x.id === qs("id"));
     document.getElementById("taskInfo").innerHTML = t
       ? `<span class="chip mb-8" style="display:inline-block;">${t.type}</span><h3 style="font-size:16px;">${t.desc}</h3><p class="muted mb-0" style="font-size:13.5px;">📍 ${t.area} · 🕒 ${t.time}</p>`
       : `<p class="muted mb-0">Bạn đang đăng ký tình nguyện tổng quát, không gắn với ca cụ thể.</p>`;
 
-    document.getElementById("volForm").addEventListener("submit", (e) => {
+    document.getElementById("volForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
       const data = Object.fromEntries(fd.entries());
       data.taskId = t ? t.id : null;
-      const record = saveRequest("volunteer", data);
+      const record = await saveRequest("volunteer", data);
       alert("Đăng ký thành công! Mã đăng ký: " + record.code);
       window.location.href = "tinh-nguyen.html";
     });

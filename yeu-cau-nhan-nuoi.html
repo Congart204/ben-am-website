@@ -63,19 +63,32 @@
     </div>
   </section>
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
+   (async () => {
+    await loadCoreData();
     const id = qs("id");
     const p = PETS.find(x => x.id === id);
     document.getElementById("petName").textContent = p ? p.name : "";
-    document.getElementById("adoptForm").addEventListener("submit", (e) => {
+    document.getElementById("adoptForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Đang gửi...";
       const fd = new FormData(e.target);
       const data = Object.fromEntries(fd.entries());
       data.petId = id; data.petName = p ? p.name : "";
-      const record = saveRequest("adopt", data);
-      window.location.href = "xac-nhan-nhan-nuoi.html?code=" + record.code;
+      try {
+        const record = await saveRequest("adopt", data);
+        window.location.href = "xac-nhan-nhan-nuoi.html?code=" + record.code;
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Gửi yêu cầu nhận nuôi";
+      }
     });
+   })();
   </script>
 </body>

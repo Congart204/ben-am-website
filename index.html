@@ -118,10 +118,13 @@
   </section>
 
   <div id="site-footer"></div>
-
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
+   (async () => {
+    await loadCoreData();
     document.getElementById("rescuePreview").innerHTML = RESCUE_CASES.slice(0,3).map(c => `
       <div class="card">
         <div class="card-media"><img src="${c.img}" alt="${c.species} cần hỗ trợ"></div>
@@ -167,5 +170,6 @@
       if (species) params.set("species", species);
       window.location.href = need + (params.toString() ? "?" + params.toString() : "");
     });
+   })();
   </script>
 </body>

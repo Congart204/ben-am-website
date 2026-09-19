@@ -85,8 +85,10 @@
   </section>
 
   <div id="site-footer"></div>
-  <script src="js/data.js?v=2"></script>
-  <script src="js/main.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
   <script>
     document.querySelectorAll('.pill-choice').forEach(label => {
       const input = label.querySelector('input');
@@ -123,12 +125,20 @@
       document.getElementById("stepDot1").classList.replace("done","active");
     });
 
-    document.getElementById("rescueForm").addEventListener("submit", (e) => {
+    document.getElementById("rescueForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Đang gửi...";
       const fd = new FormData(e.target);
       const data = Object.fromEntries(fd.entries());
-      const record = saveRequest("rescue", data);
-      window.location.href = "xac-nhan-cuu-ho.html?code=" + record.code;
+      try {
+        const record = await saveRequest("rescue", data);
+        window.location.href = "xac-nhan-cuu-ho.html?code=" + record.code;
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Gửi yêu cầu cứu hộ";
+      }
     });
   </script>
 </body>
