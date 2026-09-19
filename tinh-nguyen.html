@@ -1,0 +1,46 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tình nguyện viên</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="volunteer">
+  <div id="site-header"></div>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Tình nguyện viên</div>
+      <div class="section-head">
+        <span class="eyebrow">Tình nguyện viên</span>
+        <h1 style="font-size:34px;">Góp một tay cho những bến đỗ ấm áp</h1>
+        <p class="muted">Bạn có thể hỗ trợ bằng nhiều hình thức khác nhau, tùy vào thời gian và khả năng của mình.</p>
+      </div>
+      <div class="grid grid-4 mb-24">
+        <div class="panel text-center"><div style="font-size:30px;">🚗</div><h3 style="font-size:15.5px;">Vận chuyển</h3></div>
+        <div class="panel text-center"><div style="font-size:30px;">🏡</div><h3 style="font-size:15.5px;">Chăm sóc / Foster</h3></div>
+        <div class="panel text-center"><div style="font-size:30px;">📸</div><h3 style="font-size:15.5px;">Chụp ảnh &amp; truyền thông</h3></div>
+        <div class="panel text-center"><div style="font-size:30px;">💰</div><h3 style="font-size:15.5px;">Gây quỹ cộng đồng</h3></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="results-head">
+        <h2 style="font-size:22px;">Các ca đang cần tình nguyện viên</h2>
+      </div>
+      <div class="grid grid-2" id="taskList"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.getElementById("taskList").innerHTML = VOLUNTEER_TASKS.map(t => `
+      <div class="panel flex-between" style="gap:16px; flex-wrap:wrap;">
+        <div>
+          <span class="chip mb-8" style="display:inline-block;">${t.type}</span>
+          <h3 style="font-size:17px;">${t.desc}</h3>
+          <p class="muted mb-0" style="font-size:13.5px;">📍 ${t.area} · 🕒 ${t.time}</p>
+        </div>
+        <a href="dang-ky-tinh-nguyen.html?id=${t.id}" class="btn btn-secondary btn-sm">Đăng ký</a>
+      </div>`).join("");
+  </script>
+</body>

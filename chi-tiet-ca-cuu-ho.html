@@ -1,0 +1,54 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chi tiết ca cứu hộ</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="rescue">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="cuu-ho.html">Cứu hộ</a> / Chi tiết ca cứu hộ</div>
+      <div id="content"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const id = qs("id");
+    const c = RESCUE_CASES.find(x => x.id === id) || RESCUE_CASES[0];
+    document.getElementById("content").innerHTML = `
+      <div class="detail-grid">
+        <div class="detail-gallery">
+          <img src="${c.img}" alt="${c.species} cần hỗ trợ">
+        </div>
+        <div>
+          <div class="card-meta mb-16">${levelBadge(c.level)} ${statusBadge(c.status)}</div>
+          <h1 style="font-size:28px;">${c.species} cần hỗ trợ tại ${c.area}</h1>
+          <table class="info-table mb-24">
+            <tr><td>Khu vực</td><td>${c.area}</td></tr>
+            <tr><td>Loài</td><td>${c.species}</td></tr>
+            <tr><td>Cập nhật</td><td>${c.updated}</td></tr>
+            <tr><td>Hình thức hỗ trợ cần</td><td>${c.need}</td></tr>
+          </table>
+          <div class="panel mb-16">
+            <h3 style="font-size:16px;">Mô tả tình trạng</h3>
+            <p class="muted mb-0">${c.desc}</p>
+          </div>
+          <div class="alert alert-warning">Thông tin do người phát hiện cung cấp, đang chờ xác minh thêm từ đội cứu hộ. Vui lòng không tự ý tiếp cận nếu chưa có hướng dẫn an toàn.</div>
+          <div class="flex gap-12">
+            <a href="tinh-nguyen.html" class="btn btn-primary">Tôi muốn hỗ trợ ca này</a>
+            <a href="huong-dan.html" class="btn btn-outline">Cách tiếp cận an toàn</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-32">
+        <h3>Lịch sử cập nhật</h3>
+        <div class="timeline mt-16">
+          <div class="t-item done"><h4>Ghi nhận thông tin ban đầu</h4><p class="muted mb-0" style="font-size:13.5px;">Người dân báo tin qua form cứu hộ.</p></div>
+          <div class="t-item current"><h4>${STATUS_LABEL[c.status].text}</h4><p class="muted mb-0" style="font-size:13.5px;">Trạng thái hiện tại của ca này.</p></div>
+        </div>
+      </div>
+    `;
+  </script>
+</body>

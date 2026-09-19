@@ -1,0 +1,62 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hồ sơ cá nhân</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Hồ sơ cá nhân</div>
+      <div class="flex-between mb-24" style="flex-wrap:wrap; gap:16px;">
+        <div>
+          <h1 style="font-size:28px;" id="userName">Xin chào</h1>
+          <p class="muted mb-0">Quản lý yêu cầu đã gửi và hoạt động tình nguyện của bạn.</p>
+        </div>
+        <button class="btn btn-outline" id="logoutBtn">Đăng xuất</button>
+      </div>
+
+      <div class="grid grid-3" style="align-items:start;">
+        <div class="panel text-center">
+          <div style="font-size:44px;">🙋</div>
+          <h3 id="userName2" style="font-size:16px;">—</h3>
+          <p class="muted" id="userRole" style="font-size:13px;">—</p>
+        </div>
+        <div class="panel" style="grid-column: span 2;">
+          <h3>Yêu cầu đã gửi</h3>
+          <div id="myRequests"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("benam_user") || 'null');
+    if (!user) {
+      document.getElementById("userName").textContent = "Bạn chưa đăng nhập";
+    } else {
+      document.getElementById("userName").textContent = "Xin chào, " + user.name;
+      document.getElementById("userName2").textContent = user.name;
+      document.getElementById("userRole").textContent = user.role === "org" ? "Tài khoản tổ chức" : "Tài khoản cá nhân";
+    }
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("benam_user");
+      window.location.href = "dang-nhap.html";
+    });
+
+    const requests = getAllRequests();
+    document.getElementById("myRequests").innerHTML = requests.length ? requests.slice().reverse().map(r => `
+      <div class="flex-between" style="padding:12px 0; border-bottom:1px solid var(--color-border);">
+        <div>
+          <b>${r.code}</b>
+          <p class="muted mb-0" style="font-size:13px;">${r.type === "rescue" ? "Yêu cầu cứu hộ" : r.type === "adopt" ? "Yêu cầu nhận nuôi" : "Đăng ký tình nguyện"} · ${new Date(r.createdAt).toLocaleDateString("vi-VN")}</p>
+        </div>
+        <div class="flex gap-8">
+          ${statusBadge(r.status)}
+          <a href="theo-doi-trang-thai.html?code=${r.code}" class="btn btn-outline btn-sm">Xem</a>
+        </div>
+      </div>`).join("") : `<p class="muted">Bạn chưa gửi yêu cầu nào. <a href="cuu-ho.html">Gửi yêu cầu cứu hộ</a> hoặc <a href="mai-am.html">tìm mái ấm</a>.</p>`;
+  </script>
+</body>

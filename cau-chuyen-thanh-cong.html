@@ -1,0 +1,33 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Câu chuyện nhận nuôi thành công</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="adopt">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="cong-dong.html">Cộng đồng</a> / Câu chuyện nhận nuôi</div>
+      <div class="section-head">
+        <span class="eyebrow">Câu chuyện thành công</span>
+        <h1 style="font-size:34px;">Những mái ấm đã được tìm thấy</h1>
+        <p class="muted">Mỗi câu chuyện là một lời cảm ơn dành cho những người đã không quay lưng.</p>
+      </div>
+      <div class="grid grid-3" id="storyList"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.getElementById("storyList").innerHTML = STORIES.map(s => `
+      <div class="card">
+        <div class="card-media"><img src="${s.img}" alt="${s.pet}"></div>
+        <div class="card-body">
+          <span class="badge badge-adopted mb-8" style="display:inline-flex;">Đã tìm được mái ấm</span>
+          <h3>${s.pet} · ${s.area}</h3>
+          <p class="muted" style="font-size:14px;">${s.text}</p>
+        </div>
+      </div>`).join("");
+  </script>
+</body>

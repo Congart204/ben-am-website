@@ -1,0 +1,68 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cộng đồng hỗ trợ</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="community">
+  <div id="site-header"></div>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Cộng đồng hỗ trợ</div>
+      <div class="section-head">
+        <span class="eyebrow">Cộng đồng</span>
+        <h1 style="font-size:34px;">Cộng đồng BẾN ẤM</h1>
+        <p class="muted">Nơi cập nhật các ca cần hỗ trợ, nhu cầu vật phẩm và hoạt động cộng đồng xoay quanh cứu hộ thú cưng.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="grid grid-3">
+        <div class="panel">
+          <h3 style="font-size:17px;">🐾 Ca đang cần hỗ trợ</h3>
+          <p class="muted" style="font-size:14px;">Xem danh sách các ca cứu hộ đang cần thêm nguồn lực.</p>
+          <a href="cuu-ho.html" class="btn btn-outline btn-sm">Xem danh sách →</a>
+        </div>
+        <div class="panel">
+          <h3 style="font-size:17px;">📦 Vật phẩm cần quyên góp</h3>
+          <ul style="font-size:14px; padding-left:18px; margin:0 0 16px;">
+            <li>Thức ăn hạt cho chó mèo con</li>
+            <li>Sữa thay thế cho mèo con dưới 1 tháng</li>
+            <li>Khăn, mền cũ, lồng vận chuyển</li>
+          </ul>
+          <a href="gioi-thieu.html#lien-he" class="btn btn-outline btn-sm">Liên hệ quyên góp</a>
+        </div>
+        <div class="panel">
+          <h3 style="font-size:17px;">🚗 Nhu cầu vận chuyển</h3>
+          <p class="muted" style="font-size:14px;">Một số ca cần hỗ trợ đưa đón giữa nơi cứu hộ và phòng khám.</p>
+          <a href="tinh-nguyen.html" class="btn btn-outline btn-sm">Đăng ký hỗ trợ →</a>
+        </div>
+      </div>
+
+      <div class="section-head mt-32">
+        <h2 style="font-size:24px;">Câu chuyện &amp; cập nhật gần đây</h2>
+      </div>
+      <div class="grid grid-3" id="storyList"></div>
+
+      <div class="panel mt-32">
+        <h3>Hoạt động cộng đồng sắp tới</h3>
+        <div class="timeline mt-16">
+          <div class="t-item current"><h4>Ngày hội nhận nuôi tại Quận 7</h4><time>21/09/2026</time></div>
+          <div class="t-item"><h4>Chiến dịch triệt sản miễn phí</h4><time>05/10/2026</time></div>
+          <div class="t-item"><h4>Gây quỹ mùa mưa cho trạm cứu hộ</h4><time>15/10/2026</time></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.getElementById("storyList").innerHTML = STORIES.map(s => `
+      <div class="card">
+        <div class="card-media"><img src="${s.img}" alt="${s.pet}"></div>
+        <div class="card-body"><h3>${s.pet} · ${s.area}</h3><p class="muted" style="font-size:14px;">${s.text}</p></div>
+      </div>`).join("");
+  </script>
+</body>

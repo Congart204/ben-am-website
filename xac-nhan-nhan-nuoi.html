@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đã gửi yêu cầu nhận nuôi</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="adopt">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container text-center" style="max-width:560px;">
+      <div style="font-size:64px; margin-bottom:10px;">🏠</div>
+      <h1 style="font-size:30px;">Đã gửi yêu cầu nhận nuôi</h1>
+      <p class="muted">Đơn vị phụ trách sẽ xem xét hồ sơ và liên hệ với bạn để phỏng vấn trong vài ngày tới.</p>
+      <div class="panel text-center" style="margin:24px 0;">
+        <p class="muted mb-8" style="font-size:13px; text-transform:uppercase; letter-spacing:.05em;">Mã yêu cầu của bạn</p>
+        <h2 id="reqCode" style="font-size:30px; color:var(--color-primary);">—</h2>
+      </div>
+      <div class="alert alert-success" style="text-align:left;">
+        Cảm ơn bạn đã sẵn sàng cho một bé thú cưng một mái ấm mới. Vui lòng theo dõi điện thoại để không bỏ lỡ cuộc gọi phỏng vấn.
+      </div>
+      <div class="flex gap-12" style="justify-content:center; margin-top:20px;">
+        <a href="#" id="trackLink" class="btn btn-primary">Theo dõi trạng thái</a>
+        <a href="mai-am.html" class="btn btn-outline">Xem thêm thú khác</a>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const code = qs("code");
+    const record = code ? getRequest(code) : null;
+    document.getElementById("reqCode").textContent = record ? record.code : "NN-DEMO01";
+    document.getElementById("trackLink").href = "theo-doi-trang-thai.html" + (record ? "?code=" + record.code : "");
+  </script>
+</body>

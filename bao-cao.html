@@ -1,0 +1,61 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Báo cáo thông tin</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container" style="max-width:640px;">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Báo cáo thông tin</div>
+      <h1 style="font-size:30px;">Báo cáo thông tin</h1>
+      <p class="muted mb-24">Cho chúng tôi biết nếu bạn phát hiện thông tin sai, hồ sơ đã hết hiệu lực hoặc nội dung không phù hợp.</p>
+
+      <form class="panel" id="reportForm">
+        <div class="field">
+          <label>Loại nội dung cần báo cáo *</label>
+          <select name="target" required>
+            <option value="">-- Chọn --</option>
+            <option>Hồ sơ thú cưng</option>
+            <option>Ca cứu hộ</option>
+            <option>Phòng khám</option>
+            <option>Nơi giữ tạm</option>
+            <option>Khác</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Đường dẫn hoặc mã liên quan</label>
+          <input type="text" name="ref" placeholder="Ví dụ: p1, CH-AB12CD, tên phòng khám...">
+        </div>
+        <div class="field">
+          <label>Lý do báo cáo *</label>
+          <select name="reason" required>
+            <option value="">-- Chọn --</option>
+            <option>Thông tin sai</option>
+            <option>Hồ sơ đã hết hiệu lực</option>
+            <option>Nội dung không phù hợp</option>
+            <option>Trường hợp cần cập nhật</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Mô tả chi tiết *</label>
+          <textarea name="detail" required></textarea>
+        </div>
+        <div class="field">
+          <label>Email hoặc số điện thoại của bạn (nếu cần liên hệ lại)</label>
+          <input type="text" name="contact">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Gửi báo cáo</button>
+      </form>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.getElementById("reportForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Cảm ơn bạn đã báo cáo. Đội ngũ BẾN ẤM sẽ kiểm tra lại thông tin sớm nhất.");
+      e.target.reset();
+    });
+  </script>
+</body>

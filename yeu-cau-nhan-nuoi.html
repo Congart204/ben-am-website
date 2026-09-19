@@ -1,0 +1,81 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gửi yêu cầu nhận nuôi</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="adopt">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container" style="max-width:720px;">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="mai-am.html">Tìm mái ấm</a> / Gửi yêu cầu nhận nuôi</div>
+      <h1 style="font-size:30px;">Gửi yêu cầu nhận nuôi <span id="petName"></span></h1>
+      <p class="muted mb-24">Vui lòng trả lời trung thực — đơn vị phụ trách sẽ liên hệ phỏng vấn trước khi bàn giao.</p>
+
+      <form class="panel" id="adoptForm">
+        <div class="field">
+          <label>Họ tên *</label>
+          <input type="text" name="fullName" required>
+        </div>
+        <div class="field">
+          <label>Số điện thoại *</label>
+          <input type="tel" name="phone" required>
+        </div>
+        <div class="field">
+          <label>Địa chỉ hiện tại *</label>
+          <input type="text" name="address" required>
+        </div>
+        <div class="field">
+          <label>Loại không gian sống *</label>
+          <select name="livingSpace" required>
+            <option value="">-- Chọn --</option>
+            <option>Nhà riêng có sân</option>
+            <option>Nhà riêng không sân</option>
+            <option>Căn hộ chung cư</option>
+            <option>Khác</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Bạn đã từng nuôi thú cưng chưa? *</label>
+          <div class="radio-group">
+            <label class="pill-choice"><input type="radio" name="experience" value="yes" required> Đã từng</label>
+            <label class="pill-choice"><input type="radio" name="experience" value="no"> Chưa từng</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Thời gian bạn có thể dành chăm sóc mỗi ngày *</label>
+          <select name="timeAvailable" required>
+            <option value="">-- Chọn --</option>
+            <option>Dưới 2 giờ</option><option>2–5 giờ</option><option>Trên 5 giờ / ở nhà cả ngày</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Lý do bạn muốn nhận nuôi *</label>
+          <textarea name="reason" required></textarea>
+        </div>
+        <div class="field">
+          <label class="flex gap-8" style="align-items:flex-start;">
+            <input type="checkbox" required style="width:auto; margin-top:4px;">
+            <span style="font-weight:400; font-size:14px;">Tôi cam kết chăm sóc lâu dài, không bỏ rơi và đồng ý cho đơn vị phụ trách thăm hỏi sau khi nhận nuôi.</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-secondary btn-block">Gửi yêu cầu nhận nuôi</button>
+      </form>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const id = qs("id");
+    const p = PETS.find(x => x.id === id);
+    document.getElementById("petName").textContent = p ? p.name : "";
+    document.getElementById("adoptForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      data.petId = id; data.petName = p ? p.name : "";
+      const record = saveRequest("adopt", data);
+      window.location.href = "xac-nhan-nhan-nuoi.html?code=" + record.code;
+    });
+  </script>
+</body>

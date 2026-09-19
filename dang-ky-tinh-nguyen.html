@@ -1,0 +1,48 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng ký tình nguyện</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="volunteer">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container" style="max-width:640px;">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="tinh-nguyen.html">Tình nguyện</a> / Đăng ký</div>
+      <h1 style="font-size:30px;">Đăng ký tình nguyện</h1>
+      <div class="panel mb-24" id="taskInfo"></div>
+
+      <form class="panel" id="volForm">
+        <div class="field"><label>Họ tên *</label><input type="text" name="fullName" required></div>
+        <div class="field"><label>Số điện thoại *</label><input type="tel" name="phone" required></div>
+        <div class="field"><label>Khu vực bạn có thể hỗ trợ *</label><input type="text" name="area" required></div>
+        <div class="field"><label>Hình thức muốn hỗ trợ *</label>
+          <select name="type" required>
+            <option value="">-- Chọn --</option>
+            <option>Vận chuyển</option><option>Chăm sóc / Foster</option><option>Chụp ảnh & truyền thông</option><option>Gây quỹ cộng đồng</option>
+          </select>
+        </div>
+        <div class="field"><label>Ghi chú thêm</label><textarea name="note" placeholder="Thời gian rảnh, kinh nghiệm nếu có..."></textarea></div>
+        <button type="submit" class="btn btn-secondary btn-block">Xác nhận đăng ký</button>
+      </form>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const t = VOLUNTEER_TASKS.find(x => x.id === qs("id"));
+    document.getElementById("taskInfo").innerHTML = t
+      ? `<span class="chip mb-8" style="display:inline-block;">${t.type}</span><h3 style="font-size:16px;">${t.desc}</h3><p class="muted mb-0" style="font-size:13.5px;">📍 ${t.area} · 🕒 ${t.time}</p>`
+      : `<p class="muted mb-0">Bạn đang đăng ký tình nguyện tổng quát, không gắn với ca cụ thể.</p>`;
+
+    document.getElementById("volForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      data.taskId = t ? t.id : null;
+      const record = saveRequest("volunteer", data);
+      alert("Đăng ký thành công! Mã đăng ký: " + record.code);
+      window.location.href = "tinh-nguyen.html";
+    });
+  </script>
+</body>

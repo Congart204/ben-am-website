@@ -1,0 +1,69 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tìm phòng khám thú y</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="clinic">
+  <div id="site-header"></div>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Phòng khám thú y</div>
+      <div class="section-head">
+        <span class="eyebrow">Phòng khám thú y</span>
+        <h1 style="font-size:34px;">Tìm phòng khám gần bạn</h1>
+        <p class="muted">Lọc theo khu vực, dịch vụ hoặc tình trạng khẩn cấp. Thông tin do các phòng khám đối tác cung cấp và cập nhật định kỳ.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="field"><label>Khu vực</label><select id="fArea"><option value="">Tất cả</option><option>TP.HCM</option><option>Hà Nội</option><option>Đà Nẵng</option></select></div>
+        <div class="field"><label>Dịch vụ</label><select id="fService"><option value="">Tất cả</option><option>Tiêm phòng</option><option>Phẫu thuật</option><option>Cấp cứu 24/7</option><option>Grooming</option><option>Microchip</option></select></div>
+        <div class="field"><label>&nbsp;</label>
+          <label class="pill-choice" style="width:100%; justify-content:center;"><input type="checkbox" id="fEmergency"> ⚡ Chỉ hiện nơi có cấp cứu</label>
+        </div>
+        <button class="btn btn-primary" id="applyFilter">Lọc</button>
+      </div>
+      <span class="muted" id="resultCount"></span>
+      <div class="grid grid-3 mt-16" id="clinicList"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="icon">🏥</div><h3>Không tìm thấy phòng khám phù hợp</h3><p class="muted">Thử điều chỉnh bộ lọc.</p>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    function render() {
+      const area = document.getElementById("fArea").value;
+      const service = document.getElementById("fService").value;
+      const emergency = document.getElementById("fEmergency").checked;
+      const list = CLINICS.filter(c =>
+        (!area || c.area.includes(area)) &&
+        (!service || c.services.includes(service)) &&
+        (!emergency || c.emergency)
+      );
+      document.getElementById("resultCount").textContent = list.length + " phòng khám";
+      document.getElementById("clinicList").innerHTML = list.map(c => `
+        <div class="card">
+          <div class="card-media"><img src="${c.img}" alt="${c.name}">
+            ${c.emergency ? '<span class="badge badge-urgent" style="position:absolute; top:10px; left:10px;">Cấp cứu 24/7</span>' : ''}
+          </div>
+          <div class="card-body">
+            <h3>${c.name}</h3>
+            <p class="muted" style="font-size:13.5px;">📍 ${c.area}</p>
+            <div class="tag-list mb-16">${c.services.map(s=>`<span class="chip">${s}</span>`).join("")}</div>
+            <div class="card-foot">
+              <span class="muted" style="font-size:13px;">☎ ${c.hotline}</span>
+              <a href="chi-tiet-phong-kham.html?id=${c.id}" class="btn btn-outline btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>`).join("");
+      document.getElementById("emptyState").style.display = list.length ? "none" : "block";
+    }
+    document.getElementById("applyFilter").addEventListener("click", render);
+    render();
+  </script>
+</body>

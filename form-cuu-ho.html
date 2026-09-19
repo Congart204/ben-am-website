@@ -1,0 +1,134 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gửi yêu cầu cứu hộ</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="rescue">
+  <div id="site-header"></div>
+
+  <section class="section">
+    <div class="container" style="max-width:720px;">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="cuu-ho.html">Cứu hộ</a> / Gửi yêu cầu</div>
+      <h1 style="font-size:32px;">Gửi yêu cầu cứu hộ</h1>
+      <p class="muted mb-24">Form gồm 2 bước, ưu tiên thao tác nhanh trên điện thoại. Vui lòng cung cấp thông tin chính xác nhất có thể.</p>
+
+      <div class="steps">
+        <div class="step active" id="stepDot1"><div class="dot">1</div><span class="label">Tình trạng &amp; vị trí</span></div>
+        <div class="step" id="stepDot2"><div class="dot">2</div><span class="label">Ảnh &amp; liên hệ</span></div>
+      </div>
+
+      <form class="panel" id="rescueForm">
+        <div id="step1">
+          <div class="field">
+            <label>Mức độ khẩn cấp *</label>
+            <div class="radio-group" id="levelGroup">
+              <label class="pill-choice urgent"><input type="radio" name="level" value="urgent" required> 🚨 Khẩn cấp</label>
+              <label class="pill-choice"><input type="radio" name="level" value="warning"> ⚠️ Cần hỗ trợ sớm</label>
+              <label class="pill-choice"><input type="radio" name="level" value="normal"> 🟢 Bình thường</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Vị trí phát hiện thú *</label>
+            <input type="text" name="location" placeholder="Ví dụ: Gần chợ Bến Thành, Quận 1, TP.HCM" required>
+            <p class="hint">Mô tả càng cụ thể càng giúp đội cứu hộ tiếp cận nhanh hơn.</p>
+          </div>
+          <div class="field">
+            <label>Loài *</label>
+            <select name="species" required>
+              <option value="">-- Chọn --</option>
+              <option>Chó</option><option>Mèo</option><option>Khác</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Tình trạng hiện tại *</label>
+            <select name="condition" required>
+              <option value="">-- Chọn --</option>
+              <option>Bị thương</option><option>Đi lạc / bơ vơ</option><option>Bị bỏ rơi</option><option>Ốm yếu / suy dinh dưỡng</option><option>Khác</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary btn-block" id="toStep2">Tiếp tục →</button>
+        </div>
+
+        <div id="step2" style="display:none;">
+          <div class="field">
+            <label>Ảnh hiện trạng</label>
+            <div class="file-drop" id="fileDrop">📷 Nhấn để chọn ảnh hoặc kéo thả vào đây</div>
+            <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
+            <p class="hint" id="fileHint">Chưa có ảnh nào được chọn.</p>
+          </div>
+          <div class="field">
+            <label>Mô tả trường hợp *</label>
+            <textarea name="desc" placeholder="Mô tả thêm về tình trạng, hành vi của thú, có nguy hiểm không..." required></textarea>
+          </div>
+          <div class="field">
+            <label>Bạn có thể giữ tạm thú trong lúc chờ hỗ trợ không?</label>
+            <div class="radio-group">
+              <label class="pill-choice"><input type="radio" name="canFoster" value="yes"> Có thể</label>
+              <label class="pill-choice"><input type="radio" name="canFoster" value="no" checked> Không thể</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Họ tên người liên hệ *</label>
+            <input type="text" name="contactName" required>
+          </div>
+          <div class="field">
+            <label>Số điện thoại *</label>
+            <input type="tel" name="contactPhone" placeholder="09xxxxxxxx" required>
+          </div>
+          <div class="flex gap-12">
+            <button type="button" class="btn btn-outline" id="backStep1">← Quay lại</button>
+            <button type="submit" class="btn btn-urgent btn-block">Gửi yêu cầu cứu hộ</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.querySelectorAll('.pill-choice').forEach(label => {
+      const input = label.querySelector('input');
+      input.addEventListener('change', () => {
+        document.querySelectorAll(`input[name="${input.name}"]`).forEach(i => i.closest('.pill-choice').classList.remove('selected'));
+        if (input.checked) label.classList.add('selected');
+      });
+    });
+
+    document.getElementById("fileDrop").addEventListener("click", () => document.getElementById("fileInput").click());
+    document.getElementById("fileInput").addEventListener("change", (e) => {
+      document.getElementById("fileHint").textContent = e.target.files.length + " ảnh đã chọn.";
+    });
+
+    document.getElementById("toStep2").addEventListener("click", () => {
+      const level = document.querySelector('input[name="level"]:checked');
+      const location = document.querySelector('input[name="location"]').value;
+      const species = document.querySelector('select[name="species"]').value;
+      const condition = document.querySelector('select[name="condition"]').value;
+      if (!level || !location || !species || !condition) {
+        alert("Vui lòng điền đầy đủ thông tin bắt buộc ở bước 1.");
+        return;
+      }
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("step2").style.display = "block";
+      document.getElementById("stepDot1").classList.replace("active","done");
+      document.getElementById("stepDot2").classList.add("active");
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+    document.getElementById("backStep1").addEventListener("click", () => {
+      document.getElementById("step2").style.display = "none";
+      document.getElementById("step1").style.display = "block";
+      document.getElementById("stepDot2").classList.remove("active");
+      document.getElementById("stepDot1").classList.replace("done","active");
+    });
+
+    document.getElementById("rescueForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      const record = saveRequest("rescue", data);
+      window.location.href = "xac-nhan-cuu-ho.html?code=" + record.code;
+    });
+  </script>
+</body>

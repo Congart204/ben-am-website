@@ -1,0 +1,41 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chi tiết phòng khám</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="clinic">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="phong-kham.html">Phòng khám</a> / Chi tiết</div>
+      <div id="content"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const c = CLINICS.find(x => x.id === qs("id")) || CLINICS[0];
+    document.getElementById("content").innerHTML = `
+      <div class="detail-grid">
+        <div class="detail-gallery"><img src="${c.img}" alt="${c.name}"></div>
+        <div>
+          ${c.emergency ? '<span class="badge badge-urgent mb-16" style="display:inline-flex;">Cấp cứu 24/7</span>' : ''}
+          <h1 style="font-size:28px;">${c.name}</h1>
+          <table class="info-table mb-24">
+            <tr><td>Địa chỉ</td><td>${c.address}</td></tr>
+            <tr><td>Khu vực</td><td>${c.area}</td></tr>
+            <tr><td>Giờ hoạt động</td><td>${c.hours}</td></tr>
+            <tr><td>Hotline</td><td>${c.hotline}</td></tr>
+            <tr><td>Cập nhật</td><td>${c.updated}</td></tr>
+          </table>
+          <h3 style="font-size:16px;">Dịch vụ</h3>
+          <div class="tag-list mb-24">${c.services.map(s=>`<span class="chip">${s}</span>`).join("")}</div>
+          <div class="flex gap-12">
+            <a href="tel:${c.hotline.replace(/\s/g,'')}" class="btn btn-primary">☎ Gọi ngay</a>
+            <a href="https://www.google.com/maps/search/${encodeURIComponent(c.address)}" target="_blank" rel="noopener" class="btn btn-outline">📍 Chỉ đường</a>
+          </div>
+        </div>
+      </div>`;
+  </script>
+</body>

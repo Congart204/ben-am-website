@@ -1,0 +1,83 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cứu hộ khẩn cấp</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="rescue">
+  <div id="site-header"></div>
+
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Cứu hộ khẩn cấp</div>
+      <div class="section-head">
+        <span class="eyebrow">Cứu hộ khẩn cấp</span>
+        <h1 style="font-size:38px;">Bạn vừa phát hiện thú cần cứu hộ?</h1>
+        <p class="muted">Gửi thông tin càng nhanh và chính xác càng giúp thú cưng được hỗ trợ kịp thời. Vui lòng giữ khoảng cách an toàn nếu con vật có biểu hiện hung dữ hoặc đang bị thương nặng.</p>
+      </div>
+      <div class="alert alert-danger">
+        <span>⚠️</span>
+        <span>Nếu con vật đang trong tình trạng nguy hiểm đến tính mạng, hãy gọi ngay hotline khẩn cấp <b>1900 0000</b> (số mẫu) trước khi điền form.</span>
+      </div>
+      <div class="grid grid-3" style="margin-bottom:30px;">
+        <a href="form-cuu-ho.html" class="btn btn-urgent" style="height:64px;">🚨 Gửi yêu cầu cứu hộ ngay</a>
+        <a href="huong-dan.html" class="btn btn-outline" style="height:64px;">📘 Cách tiếp cận an toàn</a>
+        <a href="theo-doi-trang-thai.html" class="btn btn-outline" style="height:64px;">🔍 Theo dõi yêu cầu đã gửi</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="field"><label>Khu vực</label><select id="fArea"><option value="">Tất cả</option><option>TP.HCM</option><option>Hà Nội</option><option>Đà Nẵng</option><option>Cần Thơ</option></select></div>
+        <div class="field"><label>Mức độ khẩn cấp</label><select id="fLevel"><option value="">Tất cả</option><option value="urgent">Khẩn cấp</option><option value="warning">Cần hỗ trợ sớm</option><option value="normal">Bình thường</option></select></div>
+        <div class="field"><label>Loài</label><select id="fSpecies"><option value="">Tất cả</option><option>Chó</option><option>Mèo</option></select></div>
+        <button class="btn btn-primary" id="applyFilter">Lọc</button>
+      </div>
+      <div class="results-head">
+        <h2 style="font-size:22px;">Các ca đang cần hỗ trợ</h2>
+        <span class="muted" id="resultCount"></span>
+      </div>
+      <div class="grid grid-3" id="caseList"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="icon">🔍</div>
+        <h3>Không tìm thấy ca nào phù hợp</h3>
+        <p class="muted">Thử bỏ bớt bộ lọc hoặc quay lại sau.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    function render() {
+      const area = document.getElementById("fArea").value;
+      const level = document.getElementById("fLevel").value;
+      const species = document.getElementById("fSpecies").value;
+      const filtered = RESCUE_CASES.filter(c =>
+        (!area || c.area.includes(area)) &&
+        (!level || c.level === level) &&
+        (!species || c.species === species)
+      );
+      document.getElementById("resultCount").textContent = filtered.length + " ca";
+      document.getElementById("caseList").innerHTML = filtered.map(c => `
+        <div class="card">
+          <div class="card-media"><img src="${c.img}" alt="${c.species} cần hỗ trợ"></div>
+          <div class="card-body">
+            <div class="card-meta">${levelBadge(c.level)} <span>${c.area}</span> <span>${c.updated}</span></div>
+            <h3>${c.species} cần hỗ trợ</h3>
+            <p class="muted" style="font-size:14px;">${c.desc}</p>
+            <p style="font-size:13px;"><b>Cần:</b> ${c.need}</p>
+            <div class="card-foot">
+              ${statusBadge(c.status)}
+              <a href="chi-tiet-ca-cuu-ho.html?id=${c.id}" class="btn btn-outline btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>`).join("");
+      document.getElementById("emptyState").style.display = filtered.length ? "none" : "block";
+    }
+    document.getElementById("applyFilter").addEventListener("click", render);
+    render();
+  </script>
+</body>

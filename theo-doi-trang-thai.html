@@ -1,0 +1,86 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theo dõi trạng thái yêu cầu</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="rescue">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container" style="max-width:640px;">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Theo dõi trạng thái</div>
+      <h1 style="font-size:30px;">Theo dõi trạng thái yêu cầu</h1>
+      <p class="muted mb-24">Nhập mã yêu cầu đã nhận được sau khi gửi cứu hộ hoặc nhận nuôi để xem tiến trình xử lý.</p>
+
+      <div class="panel flex gap-12" style="margin-bottom:30px;">
+        <input type="text" id="codeInput" placeholder="Nhập mã yêu cầu, ví dụ CH-AB12CD" style="flex:1;">
+        <button class="btn btn-primary" id="searchBtn">Tra cứu</button>
+      </div>
+
+      <div id="resultArea"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const STAGES = [
+      { key: "received", label: "Đã tiếp nhận yêu cầu", desc: "BẾN ẤM đã ghi nhận thông tin bạn gửi." },
+      { key: "seeking", label: "Đang tìm hỗ trợ", desc: "Đang tìm tình nguyện viên hoặc nơi tiếp nhận phù hợp." },
+      { key: "treating", label: "Đang điều trị / xử lý", desc: "Trường hợp đang được xử lý tại phòng khám hoặc hiện trường." },
+      { key: "fostering", label: "Đang chăm sóc tạm thời", desc: "Thú đang ở nhà foster hoặc nơi lưu trú." },
+      { key: "ready", label: "Sẵn sàng nhận nuôi", desc: "Hồ sơ đã sẵn sàng để tìm mái ấm mới." },
+    ];
+
+    function renderResult(record) {
+      const area = document.getElementById("resultArea");
+      if (!record) {
+        area.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">🔍</div>
+            <h3>Không tìm thấy mã yêu cầu này</h3>
+            <p class="muted">Kiểm tra lại mã hoặc liên hệ hotline 1900 0000 (số mẫu) để được hỗ trợ.</p>
+          </div>`;
+        return;
+      }
+      const idx = STAGES.findIndex(s => s.key === record.status);
+      const currentIdx = idx === -1 ? 0 : idx;
+      area.innerHTML = `
+        <div class="panel mb-24">
+          <div class="flex-between mb-8">
+            <h3 class="mb-0">Mã yêu cầu: ${record.code}</h3>
+            ${statusBadge(record.status)}
+          </div>
+          <p class="muted mb-0" style="font-size:13.5px;">Loại yêu cầu: ${record.type === "rescue" ? "Cứu hộ khẩn cấp" : record.type === "adopt" ? "Nhận nuôi" : "Tình nguyện"} · Gửi lúc ${new Date(record.createdAt).toLocaleString("vi-VN")}</p>
+        </div>
+        <div class="panel">
+          <h3>Tiến trình xử lý</h3>
+          <div class="timeline mt-16">
+            ${STAGES.map((s,i) => `
+              <div class="t-item ${i < currentIdx ? "done" : i === currentIdx ? "current" : ""}">
+                <h4>${s.label}</h4>
+                <p class="muted mb-0" style="font-size:13.5px;">${s.desc}</p>
+                ${i===currentIdx ? `<time>Trạng thái hiện tại</time>` : ""}
+              </div>`).join("")}
+          </div>
+        </div>`;
+    }
+
+    function doSearch() {
+      const code = document.getElementById("codeInput").value.trim().toUpperCase();
+      renderResult(getRequest(code));
+    }
+    document.getElementById("searchBtn").addEventListener("click", doSearch);
+
+    const pre = qs("code");
+    if (pre) {
+      document.getElementById("codeInput").value = pre;
+      doSearch();
+    } else {
+      const all = getAllRequests();
+      if (all.length) { document.getElementById("codeInput").value = all[all.length-1].code; doSearch(); }
+      else {
+        document.getElementById("resultArea").innerHTML = `<div class="empty-state"><div class="icon">📭</div><h3>Chưa có yêu cầu nào để tra cứu</h3><p class="muted">Gửi thử một <a href="form-cuu-ho.html">yêu cầu cứu hộ</a> để xem demo theo dõi trạng thái.</p></div>`;
+      }
+    }
+  </script>
+</body>

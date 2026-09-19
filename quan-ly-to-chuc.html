@@ -1,0 +1,62 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quản lý dành cho tổ chức</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Quản lý tổ chức</div>
+      <div class="flex-between mb-24" style="flex-wrap:wrap; gap:16px;">
+        <div>
+          <h1 style="font-size:28px;">Bảng quản lý tổ chức</h1>
+          <p class="muted mb-0">Dành cho trạm cứu hộ, phòng khám hoặc nơi giữ tạm đối tác của BẾN ẤM.</p>
+        </div>
+        <div class="flex gap-8">
+          <button class="btn btn-outline btn-sm">+ Thêm hồ sơ thú</button>
+          <button class="btn btn-primary btn-sm">+ Thêm ca cứu hộ</button>
+        </div>
+      </div>
+
+      <div class="grid grid-4 mb-24">
+        <div class="panel text-center"><b style="font-size:26px; color:var(--color-primary); font-family:var(--font-accent);">6</b><p class="muted mb-0" style="font-size:13px;">Yêu cầu chờ xử lý</p></div>
+        <div class="panel text-center"><b style="font-size:26px; color:var(--color-primary); font-family:var(--font-accent);">14</b><p class="muted mb-0" style="font-size:13px;">Hồ sơ thú đang quản lý</p></div>
+        <div class="panel text-center"><b style="font-size:26px; color:var(--color-primary); font-family:var(--font-accent);">3</b><p class="muted mb-0" style="font-size:13px;">Ca cứu hộ đang xử lý</p></div>
+        <div class="panel text-center"><b style="font-size:26px; color:var(--color-primary); font-family:var(--font-accent);">9</b><p class="muted mb-0" style="font-size:13px;">Đã hoàn tất tháng này</p></div>
+      </div>
+
+      <div class="panel">
+        <h3>Yêu cầu cần xử lý</h3>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:14px; min-width:600px;">
+            <thead>
+              <tr style="text-align:left; border-bottom:2px solid var(--color-border);">
+                <th style="padding:10px 6px;">Mã</th><th style="padding:10px 6px;">Loại</th><th style="padding:10px 6px;">Khu vực</th><th style="padding:10px 6px;">Trạng thái</th><th style="padding:10px 6px;">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const requests = getAllRequests();
+    const rows = requests.length ? requests : [
+      { code: "CH-DEMO1", type: "rescue", status: "seeking", data: { location: "Quận 7, TP.HCM" } },
+      { code: "NN-DEMO2", type: "adopt", status: "received", data: { address: "Hà Nội" } },
+    ];
+    document.getElementById("tbody").innerHTML = rows.map(r => `
+      <tr style="border-bottom:1px solid var(--color-border);">
+        <td style="padding:10px 6px;">${r.code}</td>
+        <td style="padding:10px 6px;">${r.type === "rescue" ? "Cứu hộ" : r.type === "adopt" ? "Nhận nuôi" : "Tình nguyện"}</td>
+        <td style="padding:10px 6px;">${r.data.location || r.data.address || r.data.area || "—"}</td>
+        <td style="padding:10px 6px;">${statusBadge(r.status)}</td>
+        <td style="padding:10px 6px;"><a href="theo-doi-trang-thai.html?code=${r.code}" class="btn btn-outline btn-sm">Xem &amp; cập nhật</a></td>
+      </tr>`).join("");
+  </script>
+</body>

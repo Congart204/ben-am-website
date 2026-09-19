@@ -1,0 +1,90 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tìm mái ấm — Danh sách thú cần nhận nuôi</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="adopt">
+  <div id="site-header"></div>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Tìm mái ấm</div>
+      <div class="section-head">
+        <span class="eyebrow">Tìm mái ấm</span>
+        <h1 style="font-size:36px;">Tìm người bạn đồng hành mới</h1>
+        <p class="muted">Duyệt hồ sơ các bé chó mèo đang chờ mái ấm. Mỗi hồ sơ đều có thông tin sức khỏe và điều kiện nhận nuôi rõ ràng.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="field"><label>Khu vực</label><select id="fArea"><option value="">Tất cả</option><option>TP.HCM</option><option>Hà Nội</option><option>Đà Nẵng</option></select></div>
+        <div class="field"><label>Loài</label><select id="fSpecies"><option value="">Tất cả</option><option>Chó</option><option>Mèo</option></select></div>
+        <div class="field"><label>Độ tuổi</label><select id="fAge"><option value="">Tất cả</option><option value="young">Dưới 1 tuổi</option><option value="adult">Trên 1 tuổi</option></select></div>
+        <div class="field"><label>Giới tính</label><select id="fGender"><option value="">Tất cả</option><option>Đực</option><option>Cái</option></select></div>
+        <div class="field"><label>Kích thước</label><select id="fSize"><option value="">Tất cả</option><option>Nhỏ</option><option>Vừa</option><option>Lớn</option></select></div>
+        <button class="btn btn-primary" id="applyFilter">Lọc</button>
+      </div>
+      <div class="results-head">
+        <span class="muted" id="resultCount"></span>
+        <select id="sortBy" style="width:200px;">
+          <option value="updated">Mới cập nhật nhất</option>
+          <option value="name">Tên A–Z</option>
+        </select>
+      </div>
+      <div class="grid grid-4" id="petList"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="icon">🐾</div>
+        <h3>Không có thú nào phù hợp bộ lọc</h3>
+        <p class="muted">Thử điều chỉnh lại tiêu chí tìm kiếm.</p>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    if (params.get("area")) document.getElementById("fArea").value = "";
+    if (params.get("species")) document.getElementById("fSpecies").value = params.get("species");
+
+    function render() {
+      const area = document.getElementById("fArea").value;
+      const species = document.getElementById("fSpecies").value;
+      const age = document.getElementById("fAge").value;
+      const gender = document.getElementById("fGender").value;
+      const size = document.getElementById("fSize").value;
+      const sort = document.getElementById("sortBy").value;
+
+      let list = PETS.filter(p => p.status !== "adopted").filter(p =>
+        (!area || p.area.includes(area)) &&
+        (!species || p.species === species) &&
+        (!gender || p.gender === gender) &&
+        (!size || p.size === size) &&
+        (!age || (age === "young" ? /tháng/.test(p.age) : /năm|tuổi/.test(p.age) && !/tháng/.test(p.age)))
+      );
+      if (sort === "name") list = [...list].sort((a,b) => a.name.localeCompare(b.name));
+      else list = [...list].sort((a,b) => b.updated.localeCompare(a.updated));
+
+      document.getElementById("resultCount").textContent = list.length + " hồ sơ";
+      document.getElementById("petList").innerHTML = list.map(p => `
+        <div class="card">
+          <div class="card-media"><img src="${p.img}" alt="${p.name}"></div>
+          <div class="card-body">
+            <div class="card-meta"><span>${p.species}</span><span>${p.age}</span><span>${p.gender}</span></div>
+            <h3>${p.name}</h3>
+            <p class="muted" style="font-size:13px;">📍 ${p.area}</p>
+            <div class="card-foot">
+              ${statusBadge(p.status)}
+              <a href="chi-tiet-thu.html?id=${p.id}" class="btn btn-outline btn-sm">Xem hồ sơ</a>
+            </div>
+          </div>
+        </div>`).join("");
+      document.getElementById("emptyState").style.display = list.length ? "none" : "block";
+    }
+    document.getElementById("applyFilter").addEventListener("click", render);
+    document.getElementById("sortBy").addEventListener("change", render);
+    render();
+  </script>
+</body>

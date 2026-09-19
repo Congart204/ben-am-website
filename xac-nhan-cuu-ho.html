@@ -1,0 +1,52 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đã gửi yêu cầu cứu hộ</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="rescue">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container text-center" style="max-width:560px;">
+      <div style="font-size:64px; margin-bottom:10px;">✅</div>
+      <h1 style="font-size:30px;">Đã gửi yêu cầu cứu hộ thành công</h1>
+      <p class="muted">Đội ngũ BẾN ẤM sẽ liên hệ với bạn trong thời gian sớm nhất, đặc biệt ưu tiên các ca khẩn cấp.</p>
+
+      <div class="panel text-center" style="margin:24px 0;">
+        <p class="muted mb-8" style="font-size:13px; text-transform:uppercase; letter-spacing:.05em;">Mã yêu cầu của bạn</p>
+        <h2 id="reqCode" style="font-size:30px; color:var(--color-primary);">—</h2>
+        <p class="muted mb-0" id="reqTime" style="font-size:13px;"></p>
+      </div>
+
+      <div class="alert alert-info" style="text-align:left;">
+        <div>
+          <b>Bước tiếp theo:</b>
+          <ul style="margin:8px 0 0; padding-left:18px;">
+            <li>Lưu lại mã yêu cầu để theo dõi trạng thái.</li>
+            <li>Giữ điện thoại sẵn sàng — tình nguyện viên có thể gọi xác minh thông tin.</li>
+            <li>Nếu tình trạng xấu đi, gọi ngay hotline 1900 0000 (số mẫu).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex gap-12" style="justify-content:center; margin-top:20px;">
+        <a href="#" id="trackLink" class="btn btn-primary">Theo dõi trạng thái</a>
+        <a href="index.html" class="btn btn-outline">Về trang chủ</a>
+      </div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const code = qs("code");
+    const record = code ? getRequest(code) : null;
+    if (record) {
+      document.getElementById("reqCode").textContent = record.code;
+      document.getElementById("reqTime").textContent = "Gửi lúc " + new Date(record.createdAt).toLocaleString("vi-VN");
+      document.getElementById("trackLink").href = "theo-doi-trang-thai.html?code=" + record.code;
+    } else {
+      document.getElementById("reqCode").textContent = "CH-DEMO01";
+      document.getElementById("trackLink").href = "theo-doi-trang-thai.html";
+    }
+  </script>
+</body>

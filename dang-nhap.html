@@ -1,0 +1,67 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đăng nhập / Đăng ký</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container" style="max-width:440px;">
+      <div class="panel">
+        <div class="steps" style="margin-bottom:24px;">
+          <button class="btn btn-outline btn-block" id="tabLogin" style="border-radius:8px 0 0 8px;">Đăng nhập</button>
+          <button class="btn btn-outline btn-block" id="tabRegister" style="border-radius:0 8px 8px 0;">Đăng ký</button>
+        </div>
+
+        <form id="loginForm">
+          <div class="field"><label>Email hoặc số điện thoại *</label><input type="text" name="account" required></div>
+          <div class="field"><label>Mật khẩu *</label><input type="text" name="password" placeholder="Đây là bản demo, không cần mật khẩu thật" required></div>
+          <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+          <p class="muted text-center mt-16" style="font-size:13.5px;">Chưa có tài khoản? <a href="#" id="goRegister" style="color:var(--color-primary); font-weight:600;">Đăng ký ngay</a></p>
+        </form>
+
+        <form id="registerForm" style="display:none;">
+          <div class="field"><label>Họ tên *</label><input type="text" name="name" required></div>
+          <div class="field"><label>Email *</label><input type="email" name="email" required></div>
+          <div class="field"><label>Số điện thoại *</label><input type="tel" name="phone" required></div>
+          <div class="field"><label>Loại tài khoản *</label>
+            <select name="role" required>
+              <option value="">-- Chọn --</option>
+              <option value="individual">Cá nhân</option>
+              <option value="org">Tổ chức / trạm cứu hộ / phòng khám</option>
+            </select>
+          </div>
+          <div class="field"><label>Mật khẩu *</label><input type="text" name="password" placeholder="Đây là bản demo, không cần mật khẩu thật" required></div>
+          <button type="submit" class="btn btn-secondary btn-block">Tạo tài khoản</button>
+          <p class="muted text-center mt-16" style="font-size:13.5px;">Đã có tài khoản? <a href="#" id="goLogin" style="color:var(--color-primary); font-weight:600;">Đăng nhập</a></p>
+        </form>
+      </div>
+      <p class="muted text-center mt-16" style="font-size:12.5px;">Đây là mô phỏng tài khoản cho mục đích thiết kế giao diện, không lưu trữ dữ liệu thật.</p>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    function showLogin() { loginForm.style.display="block"; registerForm.style.display="none"; }
+    function showRegister() { loginForm.style.display="none"; registerForm.style.display="block"; }
+    document.getElementById("tabLogin").addEventListener("click", showLogin);
+    document.getElementById("tabRegister").addEventListener("click", showRegister);
+    document.getElementById("goRegister").addEventListener("click", (e)=>{e.preventDefault(); showRegister();});
+    document.getElementById("goLogin").addEventListener("click", (e)=>{e.preventDefault(); showLogin();});
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      localStorage.setItem("benam_user", JSON.stringify({ name: "Người dùng demo", role: "individual" }));
+      window.location.href = "ho-so-ca-nhan.html";
+    });
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      localStorage.setItem("benam_user", JSON.stringify({ name: data.name, role: data.role }));
+      window.location.href = data.role === "org" ? "quan-ly-to-chuc.html" : "ho-so-ca-nhan.html";
+    });
+  </script>
+</body>

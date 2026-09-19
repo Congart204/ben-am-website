@@ -1,0 +1,56 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tìm nơi giữ tạm &amp; foster</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="foster">
+  <div id="site-header"></div>
+  <section class="section" style="padding-bottom:20px;">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / Nơi giữ tạm</div>
+      <div class="section-head">
+        <span class="eyebrow">Nơi giữ tạm &amp; foster</span>
+        <h1 style="font-size:34px;">Tìm nơi giữ tạm hỗ trợ cứu hộ</h1>
+        <p class="muted">Đây là các nơi giữ tạm hỗ trợ cứu hộ, <b>không phải</b> dịch vụ pet hotel thương mại. Vui lòng xem phần "Điều kiện tiếp nhận" trước khi liên hệ.</p>
+      </div>
+      <div class="alert alert-info">💡 Bạn muốn tìm dịch vụ lưu trú trả phí cho thú cưng của mình (không liên quan cứu hộ)? Trang này chỉ tổng hợp nơi giữ tạm hỗ trợ cứu hộ, không thay thế dịch vụ pet hotel thương mại.</div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="filter-bar">
+        <div class="field"><label>Khu vực</label><select id="fArea"><option value="">Tất cả</option><option>TP.HCM</option><option>Hà Nội</option><option>Đà Nẵng</option></select></div>
+        <div class="field"><label>Loài nhận</label><select id="fAccept"><option value="">Tất cả</option><option>Chó nhỏ</option><option>Chó lớn</option><option>Mèo</option><option>Mèo con</option><option>Mèo mẹ</option></select></div>
+        <button class="btn btn-primary" id="applyFilter">Lọc</button>
+      </div>
+      <span class="muted" id="resultCount"></span>
+      <div class="grid grid-3 mt-16" id="fosterList"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    function render() {
+      const area = document.getElementById("fArea").value;
+      const accept = document.getElementById("fAccept").value;
+      const list = FOSTERS.filter(f => (!area || f.area.includes(area)) && (!accept || f.accepts.includes(accept)));
+      document.getElementById("resultCount").textContent = list.length + " nơi giữ tạm";
+      document.getElementById("fosterList").innerHTML = list.map(f => `
+        <div class="card">
+          <div class="card-media"><img src="${f.img}" alt="${f.name}"></div>
+          <div class="card-body">
+            <h3>${f.name}</h3>
+            <p class="muted" style="font-size:13.5px;">📍 ${f.area}</p>
+            <div class="tag-list mb-16">${f.accepts.map(a=>`<span class="chip">${a}</span>`).join("")}</div>
+            <div class="card-foot">
+              <span class="badge ${f.status==='available'?'badge-ready':'badge-outline'}">${f.status==='available'?'Còn nhận':'Đã đầy'}</span>
+              <a href="chi-tiet-noi-giu-tam.html?id=${f.id}" class="btn btn-outline btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>`).join("");
+    }
+    document.getElementById("applyFilter").addEventListener("click", render);
+    render();
+  </script>
+</body>

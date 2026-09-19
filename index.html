@@ -1,0 +1,171 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BẾN ẤM — Cứu hộ, chăm sóc và kết nối nhận nuôi thú cưng</title>
+<meta name="description" content="BẾN ẤM kết nối cứu hộ khẩn cấp, phòng khám thú y, nơi giữ tạm và nhận nuôi thú cưng trong một nền tảng.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="home">
+  <div id="site-header"></div>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-tag">🐾 Nền tảng cứu hộ & nhận nuôi thú cưng Việt Nam</span>
+        <h1>Mỗi bến đỗ <span>ấm áp</span><br>bắt đầu từ một lời cứu giúp</h1>
+        <p class="muted" style="font-size:17px; max-width:480px;">BẾN ẤM kết nối người phát hiện thú cần cứu hộ, phòng khám thú y, nơi giữ tạm và người muốn nhận nuôi — trong một trải nghiệm duy nhất.</p>
+        <div class="hero-actions">
+          <a href="cuu-ho.html" class="btn btn-urgent">🚨 Gửi yêu cầu cứu hộ</a>
+          <a href="mai-am.html" class="btn btn-secondary">🏠 Tìm mái ấm</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>128</b><span>ca đã hỗ trợ</span></div>
+          <div><b>64</b><span>thú đã có mái ấm</span></div>
+          <div><b>32</b><span>đối tác &amp; phòng khám</span></div>
+        </div>
+      </div>
+      <div class="hero-media"><img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=900&h=700&q=75" alt="Thú cưng được cứu hộ"></div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="quick-search">
+      <div class="field mb-0"><label>Khu vực</label><select id="qsArea"><option value="">Tất cả khu vực</option><option>TP.HCM</option><option>Hà Nội</option><option>Đà Nẵng</option><option>Cần Thơ</option></select></div>
+      <div class="field mb-0"><label>Loài</label><select id="qsSpecies"><option value="">Chó &amp; mèo</option><option>Chó</option><option>Mèo</option></select></div>
+      <div class="field mb-0"><label>Bạn đang cần</label><select id="qsNeed"><option value="mai-am.html">Tìm mái ấm</option><option value="phong-kham.html">Tìm phòng khám</option><option value="noi-giu-tam.html">Tìm nơi giữ tạm</option></select></div>
+      <button class="btn btn-primary" id="qsSubmit">Tìm kiếm</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="results-head">
+        <div class="section-head mb-0">
+          <span class="eyebrow">Cần hỗ trợ ngay</span>
+          <h2>Các ca đang cần cứu hộ</h2>
+        </div>
+        <a href="cuu-ho.html" class="btn btn-outline btn-sm">Xem tất cả →</a>
+      </div>
+      <div class="grid grid-3" id="rescuePreview"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="results-head">
+        <div class="section-head mb-0">
+          <span class="eyebrow">Sẵn sàng cho đi yêu thương</span>
+          <h2>Thú đang chờ nhận nuôi</h2>
+        </div>
+        <a href="mai-am.html" class="btn btn-outline btn-sm">Xem tất cả →</a>
+      </div>
+      <div class="grid grid-4" id="petPreview"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Dịch vụ hỗ trợ</span>
+        <h2>Mọi nhu cầu, một điểm đến</h2>
+      </div>
+      <div class="grid grid-3">
+        <a href="phong-kham.html" class="card">
+          <div class="card-body">
+            <div style="font-size:34px; margin-bottom:10px;">🏥</div>
+            <h3>Phòng khám thú y</h3>
+            <p class="muted" style="font-size:14px;">Tìm phòng khám theo khu vực, dịch vụ và tình trạng khẩn cấp.</p>
+          </div>
+        </a>
+        <a href="noi-giu-tam.html" class="card">
+          <div class="card-body">
+            <div style="font-size:34px; margin-bottom:10px;">🏡</div>
+            <h3>Nơi giữ tạm &amp; foster</h3>
+            <p class="muted" style="font-size:14px;">Tìm nơi giữ tạm hỗ trợ cứu hộ, phân biệt rõ với dịch vụ thương mại.</p>
+          </div>
+        </a>
+        <a href="tinh-nguyen.html" class="card">
+          <div class="card-body">
+            <div style="font-size:34px; margin-bottom:10px;">🤝</div>
+            <h3>Tình nguyện viên</h3>
+            <p class="muted" style="font-size:14px;">Đăng ký hỗ trợ vận chuyển, chăm sóc, truyền thông hoặc foster.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Câu chuyện thành công</span>
+        <h2>Những mái ấm đã được tìm thấy</h2>
+      </div>
+      <div class="grid grid-3" id="storyPreview"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="panel flex-between" style="flex-wrap:wrap; gap:20px;">
+        <div>
+          <h3 style="margin-bottom:6px;">Gặp thú cơ nhỡ, bạn cần làm gì?</h3>
+          <p class="muted mb-0" style="max-width:520px;">Xem hướng dẫn tiếp cận an toàn, cách gửi thông tin và các bước xử lý ban đầu trước khi gửi yêu cầu cứu hộ.</p>
+        </div>
+        <a href="huong-dan.html" class="btn btn-primary">Xem hướng dẫn</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    document.getElementById("rescuePreview").innerHTML = RESCUE_CASES.slice(0,3).map(c => `
+      <div class="card">
+        <div class="card-media"><img src="${c.img}" alt="${c.species} cần hỗ trợ"></div>
+        <div class="card-body">
+          <div class="card-meta">${levelBadge(c.level)} <span>${c.area}</span></div>
+          <h3>${c.species} cần hỗ trợ</h3>
+          <p class="muted" style="font-size:14px;">${c.desc}</p>
+          <div class="card-foot">
+            ${statusBadge(c.status)}
+            <a href="chi-tiet-ca-cuu-ho.html?id=${c.id}" class="btn btn-outline btn-sm">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>`).join("");
+
+    document.getElementById("petPreview").innerHTML = PETS.filter(p=>p.status!=="adopted").slice(0,4).map(p => `
+      <div class="card">
+        <div class="card-media"><img src="${p.img}" alt="${p.name}"></div>
+        <div class="card-body">
+          <div class="card-meta"><span>${p.species}</span><span>${p.age}</span><span>${p.area}</span></div>
+          <h3>${p.name}</h3>
+          <div class="card-foot">
+            ${statusBadge(p.status)}
+            <a href="chi-tiet-thu.html?id=${p.id}" class="btn btn-outline btn-sm">Xem hồ sơ</a>
+          </div>
+        </div>
+      </div>`).join("");
+
+    document.getElementById("storyPreview").innerHTML = STORIES.map(s => `
+      <div class="card">
+        <div class="card-media"><img src="${s.img}" alt="${s.pet}"></div>
+        <div class="card-body">
+          <h3>${s.pet} · ${s.area}</h3>
+          <p class="muted" style="font-size:14px;">${s.text}</p>
+        </div>
+      </div>`).join("");
+
+    document.getElementById("qsSubmit").addEventListener("click", () => {
+      const need = document.getElementById("qsNeed").value;
+      const area = document.getElementById("qsArea").value;
+      const species = document.getElementById("qsSpecies").value;
+      const params = new URLSearchParams();
+      if (area) params.set("area", area);
+      if (species) params.set("species", species);
+      window.location.href = need + (params.toString() ? "?" + params.toString() : "");
+    });
+  </script>
+</body>

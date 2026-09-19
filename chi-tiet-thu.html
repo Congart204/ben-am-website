@@ -1,0 +1,54 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chi tiết hồ sơ thú</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+<body data-page="adopt">
+  <div id="site-header"></div>
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Trang chủ</a> / <a href="mai-am.html">Tìm mái ấm</a> / Chi tiết hồ sơ</div>
+      <div id="content"></div>
+    </div>
+  </section>
+  <div id="site-footer"></div>
+  <script src="js/data.js?v=2"></script>
+  <script src="js/main.js?v=2"></script>
+  <script>
+    const id = qs("id");
+    const p = PETS.find(x => x.id === id) || PETS[0];
+    document.getElementById("content").innerHTML = `
+      <div class="detail-grid">
+        <div class="detail-gallery">
+          <img src="${p.img}" alt="${p.name}">
+        </div>
+        <div>
+          <div class="card-meta mb-16">${statusBadge(p.status)} <span>${p.species}</span> <span>${p.breed}</span></div>
+          <h1 style="font-size:32px;">${p.name}</h1>
+          <table class="info-table mb-24">
+            <tr><td>Tuổi ước tính</td><td>${p.age}</td></tr>
+            <tr><td>Giới tính</td><td>${p.gender}</td></tr>
+            <tr><td>Kích thước</td><td>${p.size}</td></tr>
+            <tr><td>Khu vực</td><td>${p.area}</td></tr>
+            <tr><td>Tính cách</td><td>${p.personality}</td></tr>
+            <tr><td>Tình trạng sức khỏe</td><td>${p.health}</td></tr>
+            <tr><td>Đơn vị phụ trách</td><td>${p.org}</td></tr>
+            <tr><td>Cập nhật</td><td>${p.updated}</td></tr>
+          </table>
+          <div class="alert alert-info">Thông tin sức khỏe được cung cấp bởi đơn vị phụ trách. BẾN ẤM không tự chẩn đoán hoặc suy đoán thêm.</div>
+          <div class="panel mb-16">
+            <h3 style="font-size:16px;">Điều kiện nhận nuôi</h3>
+            <ul style="margin:0; padding-left:18px; font-size:14.5px;">
+              <li>Có không gian sống phù hợp với kích thước thú.</li>
+              <li>Cam kết không bỏ rơi hoặc chuyển nhượng khi chưa trao đổi với đơn vị phụ trách.</li>
+              <li>Đồng ý cho thăm hỏi hoặc cập nhật tình trạng sau khi nhận nuôi.</li>
+            </ul>
+          </div>
+          ${p.status === "ready"
+            ? `<a href="yeu-cau-nhan-nuoi.html?id=${p.id}" class="btn btn-secondary btn-block">🏠 Gửi yêu cầu nhận nuôi ${p.name}</a>`
+            : `<button class="btn btn-outline btn-block" disabled>Hiện chưa nhận yêu cầu — trạng thái: ${STATUS_LABEL[p.status].text}</button>`}
+        </div>
+      </div>
+    `;
+  </script>
+</body>
